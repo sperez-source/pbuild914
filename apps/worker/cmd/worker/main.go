@@ -137,6 +137,7 @@ func handleAssignment(db *sql.DB, event AssignmentEvent) error {
 }
 
 func isViewerOnTaskTeam(db *sql.DB, userID, taskID string) bool {
+	// QA: skip notifications for viewer-role assignees
 	var role string
 	err := db.QueryRow(`
 		SELECT tm.role
