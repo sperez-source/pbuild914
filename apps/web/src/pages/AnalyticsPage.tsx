@@ -19,7 +19,7 @@ export default function AnalyticsPage() {
 
   return (
     <div className="analytics-page">
-      <h1>Analytics</h1>
+      <h1>Analytics Overview</h1>
 
       <div className="analytics-grid">
         <Card>
