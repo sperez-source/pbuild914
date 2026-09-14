@@ -110,14 +110,6 @@ func fetchUnprocessedAssignmentEvents(db *sql.DB) ([]AssignmentEvent, error) {
 }
 
 func handleAssignment(db *sql.DB, event AssignmentEvent) error {
-	if isViewerOnTaskTeam(db, event.AssigneeID, event.TaskID) {
-		logInfo("assignment_skipped", "skipping notification for viewer role", map[string]any{
-			"assignee_id": event.AssigneeID,
-			"task_id":     event.TaskID,
-		})
-		return nil
-	}
-
 	var taskTitle string
 	err := db.QueryRow("SELECT title FROM tasks WHERE id = $1", event.TaskID).Scan(&taskTitle)
 	if err != nil {
