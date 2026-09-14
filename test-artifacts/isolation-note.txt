@@ -1,0 +1,3 @@
+Created: 2026-09-14
+Branch: test/pr-create-20260914
+Purpose: disposable PR for tool isolation
