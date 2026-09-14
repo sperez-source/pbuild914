@@ -42,12 +42,6 @@ paths:
       tags: [projects]
       security: [{ bearerAuth: [] }]
 
-  /api/v1/projects/{project_id}:
-    get:
-      summary: Get project
-      tags: [projects]
-      security: [{ bearerAuth: [] }]
-
   /api/v1/projects/{project_id}/tasks:
     get:
       summary: List tasks

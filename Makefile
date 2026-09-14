@@ -1,4 +1,4 @@
-.PHONY: dev down test seed migrate api-test web-test worker-test fixture-test scenario lint ci codegen-check seed-github
+.PHONY: dev down test seed migrate api-test web-test worker-test fixture-test lint
 
 dev:
 	docker compose up --build -d
@@ -36,32 +36,9 @@ worker-test:
 fixture-test:
 	bash scripts/run-fixture-tests.sh
 
-	@test -n "$(NUM)" || (echo "Usage: make scenario NUM=01" && exit 1)
-	bash scripts/checkout-scenario.sh $(NUM)
-
 lint:
 	cd apps/api && python3 -m ruff check .
 	cd apps/web && npm run lint
-
-codegen-check:
-	python3 scripts/check-codegen.py
-
-ci: codegen-check lint api-test web-test worker-test
-
-seed-github:
-	@test -n "$(REPO)" || (echo "Usage: make seed-github REPO=owner/repo [FORCE=1]" && exit 1)
-	bash scripts/seed-github-mcp-fixtures.sh --repo "$(REPO)" $(if $(FORCE),--force,)
-
-	@test -n "$(OUT)" || (echo "Usage: make OUT=../meridian-blind ALL_BRANCHES=1" && exit 1)
-	@if [ "$(ALL_BRANCHES)" = "1" ]; then \
-		bash scripts/generate-blind-repo.sh --output "$(OUT)" --all-branches; \
-	else \
-		bash scripts/generate-blind-repo.sh --output "$(OUT)" \
-			$(if $(BRANCH),--branch "$(BRANCH)",) \
-			$(if $(BLIND_BRANCH),--blind-branch "$(BLIND_BRANCH)",) \
-			$(if $(SCENARIO),--scenario "$(SCENARIO)",); \
-	fi
-
 
 setup-local:
 	cp -n .env.example .env 2>/dev/null || true
